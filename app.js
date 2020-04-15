@@ -32,6 +32,7 @@ const typeDefs = gql`
 		hello: String
 		singUp(name: String): String
 		findAll: [User]
+		findOne: User
 	}
 	type Mutation {
 		create(input: UserData): User!
@@ -75,6 +76,13 @@ const resolvers = {
 			}catch(e) {
 				return null;
 			}
+		},
+		findOne: async () => {
+			try {
+				return await UserDocument.findOne();
+			}catch(e) {
+				return null;
+			}
 		}
 	},
 	Mutation: {
@@ -102,7 +110,6 @@ const server = new ApolloServer({
     onConnect: () => console.log('Connected to websocket'),
   },
   context: async ({ req, connection }) => {
-  	console.log(req)
   	return;
   },
 });
